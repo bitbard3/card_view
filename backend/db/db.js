@@ -33,6 +33,10 @@ const userSchema = mongoose.Schema({
         required: true,
         uppercase: true
     },
+    avatar: {
+        type: String,
+        required: false,
+    },
     domain: {
         type: String,
         required: true,
@@ -45,4 +49,19 @@ const userSchema = mongoose.Schema({
 }
 )
 
+const teamSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+    },
+    users: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    ],
+})
+
+
 export const User = mongoose.model('User', userSchema)
+export const Team = mongoose.model('User', teamSchema)
