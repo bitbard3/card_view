@@ -1,5 +1,22 @@
 import { User } from "../db/db.js"
+import mongoose from 'mongoose'
 import { createUserSchema, updateUserSchema } from "../validations/user.validation.js"
+
+export const userInfo = async (req, res) => {
+    const userId = req.params.id;
+    try {
+        const userExist = await User.findOne({ _id: new mongoose.Types.ObjectId(userId) });
+        if (userExist) {
+            return res.json({ user: userExist });
+        } else {
+            return res.status(404).json({ msg: "User not found" });
+        }
+    } catch (error) {
+        console.error("Error fetching user:", error);
+        return res.status(500).json({ msg: "Internal server error" });
+    }
+};
+
 
 export const createUser = async (req, res) => {
     const payload = req.body
