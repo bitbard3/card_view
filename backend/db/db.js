@@ -14,13 +14,11 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        uppercase: true
     },
     last_name: {
         type: String,
         required: true,
         trim: true,
-        uppercase: true
     },
     email: {
         type: String,
@@ -31,7 +29,6 @@ const userSchema = mongoose.Schema({
     gender: {
         type: String,
         required: true,
-        uppercase: true
     },
     avatar: {
         type: String,
@@ -40,7 +37,6 @@ const userSchema = mongoose.Schema({
     domain: {
         type: String,
         required: true,
-        uppercase: true
     },
     available: {
         type: Boolean,
@@ -64,4 +60,4 @@ const teamSchema = mongoose.Schema({
 
 
 export const User = mongoose.model('User', userSchema)
-export const Team = mongoose.model('User', teamSchema)
+export const Team = mongoose.model('Team', teamSchema)
