@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { Checkbox } from './ui/checkbox'
 
-export default function FilterPopover({ domains, setDomains }) {
+export default function FilterPopover({ domains, setDomains, genders, setGenders }) {
     const [selectedDomains, setSelectedDomains] = useState([]);
+    const [selectedGenders, setSelectedGenders] = useState([]);
 
     useEffect(() => {
         setSelectedDomains(domains);
     }, [domains]);
+
+    useEffect(() => {
+        setSelectedGenders(genders);
+    }, [genders]);
 
     const handleDomainClick = (domain) => {
         setDomains(prevDomains => {
@@ -16,12 +21,18 @@ export default function FilterPopover({ domains, setDomains }) {
             return [...prevDomains, domain];
         });
     };
+
+    const handleGenderClick = (gender) => {
+        setGenders(prevGenders => {
+            if (prevGenders.includes(gender)) {
+                return prevGenders.filter(g => g !== gender);
+            }
+            return [...prevGenders, gender];
+        });
+    };
     return (
         <div className="flex flex-col justify-between">
-            <div className="flex justify-between items-center mb-3">
-                <p className="text-black font-medium text-lg">Filter</p>
-                <button className="px-4 py-1.5 bg-red-500 rounded-lg text-neutral-100">Clear</button>
-            </div>
+            <p className="text-black font-medium text-lg mb-3">Filter</p>
             <div className="flex items-center mt-7 border-b-2 border-neutral-200 pb-5 justify-between">
                 <div className="flex items-center space-x-4">
                     <p className="text-stone-950">Domain</p>
@@ -59,22 +70,22 @@ export default function FilterPopover({ domains, setDomains }) {
                 <div className="flex items-center space-x-4">
                     <p className="text-stone-950">Gender</p>
                     <div className="flex gap-x-2 items-center flex-wrap gap-y-3">
-                        <button className="text-black rounded-lg text-xs px-3 py-0.5 border border-neutral-500">
+                        <button onClick={() => handleGenderClick('Agender')} className={`text-black rounded-lg text-xs px-3 py-0.5 border border-neutral-500 ${selectedGenders.includes('Agender') ? 'bg-[#788fff] text-white' : 'text-black'}`}>
                             Agender
                         </button>
-                        <button className="text-black rounded-lg text-xs px-3 py-0.5 border border-neutral-500">
+                        <button onClick={() => handleGenderClick('Polygender')} className={`text-black rounded-lg text-xs px-3 py-0.5 border border-neutral-500 ${selectedGenders.includes('Polygender') ? 'bg-[#788fff] text-white' : 'text-black'}`}>
                             Polygender
                         </button>
-                        <button className="text-black rounded-lg text-xs px-3 py-0.5 border border-neutral-500">
+                        <button onClick={() => handleGenderClick('Genderfluid')} className={`text-black rounded-lg text-xs px-3 py-0.5 border border-neutral-500 ${selectedGenders.includes('Genderfluid') ? 'bg-[#788fff] text-white' : 'text-black'}`}>
                             Genderfluid
                         </button>
-                        <button className="text-black rounded-lg text-xs px-3 py-0.5 border border-neutral-500">
+                        <button onClick={() => handleGenderClick('Male')} className={`text-black rounded-lg text-xs px-3 py-0.5 border border-neutral-500 ${selectedGenders.includes('Male') ? 'bg-[#788fff] text-white' : 'text-black'}`}>
                             Male
                         </button>
-                        <button className="text-black rounded-lg text-xs px-3 py-0.5 border border-neutral-500">
+                        <button onClick={() => handleGenderClick('Non-binary')} className={`text-black rounded-lg text-xs px-3 py-0.5 border border-neutral-500 ${selectedGenders.includes('Non-binary') ? 'bg-[#788fff] text-white' : 'text-black'}`}>
                             Non-binary
                         </button>
-                        <button className="text-black rounded-lg text-xs px-3 py-0.5 border border-neutral-500">
+                        <button onClick={() => handleGenderClick('Female')} className={`text-black rounded-lg text-xs px-3 py-0.5 border border-neutral-500 ${selectedGenders.includes('Female') ? 'bg-[#788fff] text-white' : 'text-black'}`}>
                             Female
                         </button>
                     </div>
