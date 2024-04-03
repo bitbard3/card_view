@@ -19,6 +19,7 @@ export default function CardList({ users, loading }) {
                                 gender={user.gender}
                                 avatar={user.avatar}
                                 key={user._id}
+                                available={user.available}
                             />
                         ))
                     )

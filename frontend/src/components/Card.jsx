@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function Card({ firstName, lastName, gender, email, domain, avatar }) {
+export default function Card({ firstName, lastName, gender, email, domain, avatar, available }) {
     return (
-        <div className="flex shadow-card flex-col rounded-md border h-[220px] bg-[#e3e3e3]">
+        <div className="flex relative shadow-card flex-col rounded-md border h-[220px] bg-[#e3e3e3]">
             <div className="w-full h-[30%] flex items-end justify-center mt-4">
                 <img src={avatar} className='h-14 w-14 border rounded-full border-neutral-900' alt="" />
             </div>
@@ -18,6 +18,13 @@ export default function Card({ firstName, lastName, gender, email, domain, avata
                     <p className="text-sm text-neutral-950 font">{email}</p>
                 </div>
             </div>
+            {!available &&
+                <div className="absolute top-5 right-0">
+                    <div className="px-2 py-1.5 rounded-l-md bg-yellow-500 bg-opacity-85 italic">
+                        <p className="text-white text-xs">Unavailable</p>
+                    </div>
+                </div>
+            }
         </div>
     )
 }
