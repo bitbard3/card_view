@@ -2,6 +2,44 @@ import { User } from "../db/db.js"
 import { userIdSchema } from "../validations/team.validations.js";
 import { createUserSchema, updateUserSchema } from "../validations/user.validation.js"
 
+export const users = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = 20;
+        const skip = (page - 1) * limit;
+        const filters = {};
+        if (req.query.domain) {
+            const domains = req.query.domain.split(',').map(domain => new RegExp(domain.trim(), 'i'));
+            filters.domain = { $in: domains };
+        }
+        if (req.query.gender) {
+            const genders = req.query.gender.split(',').map(gender => new RegExp('\\b' + gender.trim() + '\\b', 'i'));
+            filters.gender = { $in: genders };
+        }
+        if (req.query.available) {
+            filters.available = req.query.available === 'true';
+        }
+        const users = await User.find(filters)
+            .skip(skip)
+            .limit(limit)
+        const totalUsers = await User.countDocuments(filters);
+        const totalPages = Math.ceil(totalUsers / limit);
+        const response = {
+            users,
+            pagination: {
+                totalUsers,
+                totalPages,
+                currentPage: page,
+                usersPerPage: limit
+            }
+        };
+        res.json(response);
+    } catch (error) {
+        console.error("Error retrieving users:", error);
+        res.status(500).json({ msg: "Internal server error" });
+    }
+};
+
 export const userInfo = async (req, res) => {
     const userId = req.params.id;
     if (userIdSchema.safeParse(userId).error) {
@@ -19,7 +57,6 @@ export const userInfo = async (req, res) => {
         return res.status(500).json({ msg: "Internal server error" });
     }
 };
-
 
 export const createUser = async (req, res) => {
     const payload = req.body
