@@ -19,7 +19,6 @@ export default function List() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [domains, setDomains] = useState(queryParams.get('domain') ? queryParams.get('domain').split(',') : []);
-    const [genders, set] = useState(queryParams.get('domain') ? queryParams.get('domain').split(',') : []);
 
     useEffect(() => {
         setLoading(true);
