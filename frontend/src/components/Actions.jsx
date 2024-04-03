@@ -6,7 +6,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import FilterPopover from './FilterPopover';
-export default function Actions({ setDomains, domains, genders, setGenders, }) {
+export default function Actions({ setDomains, domains, genders, setGenders, available, setAvailable }) {
     return (
         <div className="flex items-center space-x-10 ml-auto">
             <div className="h-10 w-10 rounded-full hover:opacity-95 bg-[#788fff] flex items-center justify-center">
@@ -17,7 +17,7 @@ export default function Actions({ setDomains, domains, genders, setGenders, }) {
                         </div>
                     </PopoverTrigger>
                     <PopoverContent>
-                        <FilterPopover genders={genders} setGenders={setGenders} domains={domains} setDomains={setDomains} />
+                        <FilterPopover available={available} setAvailable={setAvailable} genders={genders} setGenders={setGenders} domains={domains} setDomains={setDomains} />
                     </PopoverContent>
                 </Popover>
             </div>

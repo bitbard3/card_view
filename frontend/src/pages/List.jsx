@@ -20,7 +20,7 @@ export default function List() {
     const [loading, setLoading] = useState(true);
     const [domains, setDomains] = useState(queryParams.get('domain') ? queryParams.get('domain').split(',') : []);
     const [genders, setGenders] = useState(queryParams.get('gender') ? queryParams.get('gender').split(',') : []);
-
+    const [available, setAvailable] = useState(queryParams.get('available') || '');
 
     useEffect(() => {
         setLoading(true);
@@ -28,7 +28,11 @@ export default function List() {
             try {
                 const domainQuery = domains.join(',');
                 const genderQuery = genders.join(',');
-                const res = await axios.get(`https://card-view-backend.vercel.app/api/users?page=${page}&domain=${domainQuery}&gender=${genderQuery}&available=${available}`);
+                let url = `https://card-view-backend.vercel.app/api/users?page=${page}&domain=${domainQuery}&gender=${genderQuery}`;
+                if (available) {
+                    url += `&available=${available}`;
+                }
+                const res = await axios.get(url);
                 setUsers(res.data.users);
             } catch (error) {
             } finally {
@@ -36,7 +40,7 @@ export default function List() {
             }
         };
         fetchData(currentPage);
-    }, [currentPage, domains, genders]);
+    }, [currentPage, domains, genders, available]);
 
     const handlePreviousPage = () => {
         if (currentPage > 1) {
@@ -58,6 +62,8 @@ export default function List() {
                         setDomains={setDomains}
                         genders={genders}
                         setGenders={setGenders}
+                        available={available}
+                        setAvailable={setAvailable}
                     />
                 </div>
                 <div className="w-full py-10 gap-y-10 gap-x-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  grid-cols-1 px-10 ">

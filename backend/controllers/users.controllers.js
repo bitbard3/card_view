@@ -35,7 +35,6 @@ export const users = async (req, res) => {
         };
         res.json(response);
     } catch (error) {
-        console.error("Error retrieving users:", error);
         res.status(500).json({ msg: "Internal server error" });
     }
 };
@@ -53,7 +52,6 @@ export const userInfo = async (req, res) => {
             return res.status(404).json({ msg: "User not found" });
         }
     } catch (error) {
-        console.error("Error fetching user:", error);
         return res.status(500).json({ msg: "Internal server error" });
     }
 };

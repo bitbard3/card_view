@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Checkbox } from './ui/checkbox'
 
-export default function FilterPopover({ domains, setDomains, genders, setGenders }) {
+export default function FilterPopover({ domains, setDomains, genders, setGenders, available, setAvailable }) {
     const [selectedDomains, setSelectedDomains] = useState([]);
     const [selectedGenders, setSelectedGenders] = useState([]);
 
@@ -30,6 +30,9 @@ export default function FilterPopover({ domains, setDomains, genders, setGenders
             return [...prevGenders, gender];
         });
     };
+    const handleAvailableToggle = () => {
+        setAvailable(prevState => !prevState);
+    }
     return (
         <div className="flex flex-col justify-between">
             <p className="text-black font-medium text-lg mb-3">Filter</p>
@@ -93,7 +96,7 @@ export default function FilterPopover({ domains, setDomains, genders, setGenders
             </div>
             <div className="flex items-center mt-7 border-b-2 border-neutral-200 pb-5 justify-between">
                 <div className="flex items-center space-x-2"></div>
-                <Checkbox />
+                <Checkbox onClick={handleAvailableToggle} />
                 <p className="text-stone-950">Only available people?</p>
                 <div className="w-10"></div>
             </div>
