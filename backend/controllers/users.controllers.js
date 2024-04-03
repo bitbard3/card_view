@@ -1,11 +1,14 @@
 import { User } from "../db/db.js"
-import mongoose from 'mongoose'
+import { userIdSchema } from "../validations/team.validations.js";
 import { createUserSchema, updateUserSchema } from "../validations/user.validation.js"
 
 export const userInfo = async (req, res) => {
     const userId = req.params.id;
+    if (userIdSchema.safeParse(userId).error) {
+        return res.status(411).json({ msg: "Invalid payload" })
+    }
     try {
-        const userExist = await User.findOne({ _id: new mongoose.Types.ObjectId(userId) });
+        const userExist = await User.findById(userId);
         if (userExist) {
             return res.json({ user: userExist });
         } else {

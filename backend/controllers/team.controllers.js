@@ -1,6 +1,5 @@
 import { Team, User } from "../db/db.js"
-import mongoose from 'mongoose'
-import { createTeamSchema } from "../validations/team.validations.js";
+import { createTeamSchema, userIdSchema } from "../validations/team.validations.js";
 
 export const createTeam = async (req, res) => {
     const { name, users } = req.body;
@@ -36,3 +35,22 @@ export const createTeam = async (req, res) => {
         return res.status(500).json({ msg: "Internal server error" });
     }
 }
+
+export const teamInfo = async (req, res) => {
+    const teamId = req.params.id;
+    if (userIdSchema.safeParse(teamId).error) {
+        return res.status(411).json({ msg: "Invalid payload" })
+    }
+    try {
+        const teamInfo = await Team.findById(teamId).populate('users');
+
+        if (!teamInfo) {
+            return res.status(404).json({ msg: "Team not found" });
+        }
+
+        res.json({ teamInfo });
+    } catch (error) {
+        res.status(500).json({ msg: "Internal server error" });
+    }
+};
+

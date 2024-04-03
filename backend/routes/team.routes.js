@@ -1,7 +1,8 @@
 import express from 'express'
-import { createTeam } from '../controllers/team.controllers.js'
+import { createTeam, teamInfo } from '../controllers/team.controllers.js'
 const router = express.Router()
 
 router.post('/', createTeam)
+router.get('/:id', teamInfo)
 
 export default router
