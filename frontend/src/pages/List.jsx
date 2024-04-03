@@ -1,6 +1,6 @@
 import NavBar from '@/components/NavBar'
 import React, { useEffect, useState } from 'react'
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios'
 import CardList from '@/components/CardList';
 import {
@@ -21,6 +21,7 @@ export default function List() {
     const [domains, setDomains] = useState(queryParams.get('domain') ? queryParams.get('domain').split(',') : []);
     const [genders, setGenders] = useState(queryParams.get('gender') ? queryParams.get('gender').split(',') : []);
     const [available, setAvailable] = useState(queryParams.get('available') || '');
+    const [nextDisable, setNextDisable] = useState(false)
 
     useEffect(() => {
         setLoading(true);
@@ -33,6 +34,12 @@ export default function List() {
                     url += `&available=${available}`;
                 }
                 const res = await axios.get(url);
+                if (res.data.pagination.totalUsers < 21) {
+                    setNextDisable(true)
+                }
+                else {
+                    setNextDisable(false)
+                }
                 setUsers(res.data.users);
             } catch (error) {
             } finally {
@@ -75,7 +82,7 @@ export default function List() {
                             <PaginationPrevious disabled={currentPage <= 1} onClick={handlePreviousPage} className='hover:bg-secondary-foreground disabled:bg-neutral-500  hover:text-background hover:cursor-pointer' />
                         </PaginationItem>
                         <PaginationItem>
-                            <PaginationNext onClick={handleNextPage} className='hover:bg-secondary-foreground  hover:text-background hover:cursor-pointer' />
+                            <PaginationNext disabled={nextDisable} onClick={handleNextPage} className='hover:bg-secondary-foreground disabled:bg-neutral-500 hover:text-background hover:cursor-pointer' />
                         </PaginationItem>
                     </PaginationContent>
                 </Pagination>
