@@ -12,5 +12,6 @@ app.use(express.json())
 app.use('/api', router)
 
 app.listen(process.env.PORT, () => {
+
     console.log("listening in port ", process.env.PORT)
 })
