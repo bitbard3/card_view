@@ -1,6 +1,10 @@
 import React from 'react'
+import { Checkbox } from './ui/checkbox'
 
-export default function Card({ firstName, lastName, gender, email, domain, avatar, available }) {
+export default function Card({ firstName, lastName, gender, email, domain, avatar, available, addToTeam, _id, team }) {
+    const handleAddToTeam = () => {
+        addToTeam(_id, domain);
+    };
     return (
         <div className="flex relative shadow-card flex-col rounded-md border h-[220px] bg-[#e3e3e3]">
             <div className="w-full h-[30%] flex items-end justify-center mt-4">
@@ -25,6 +29,9 @@ export default function Card({ firstName, lastName, gender, email, domain, avata
                     </div>
                 </div>
             }
+            <div className="absolute top-3 left-3">
+                <Checkbox disabled={!available} onClick={handleAddToTeam} className='border-neutral-500' />
+            </div>
         </div>
     )
 }

@@ -6,7 +6,14 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import FilterPopover from './FilterPopover';
-export default function Actions({ setDomains, domains, genders, setGenders, available, setAvailable }) {
+import {
+    Dialog,
+    DialogContent,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import AddTeam from './AddTeam';
+
+export default function Actions({ setDomains, domains, genders, setGenders, available, setAvailable, team }) {
     return (
         <div className="flex items-center space-x-10 ml-auto">
             <div className="h-10 w-10 rounded-full hover:opacity-95 bg-[#788fff] flex items-center justify-center">
@@ -21,9 +28,16 @@ export default function Actions({ setDomains, domains, genders, setGenders, avai
                     </PopoverContent>
                 </Popover>
             </div>
-            <div className="text-white bg-[#788fff] rounded-lg hover:opacity-95 px-10 py-1.5 text-lg">
-                Add team
-            </div>
+            <Dialog>
+                <DialogTrigger>
+                    <div className="text-white bg-[#788fff] rounded-lg hover:opacity-95 px-10 py-1.5 text-lg">
+                        Add team
+                    </div>
+                </DialogTrigger>
+                <DialogContent>
+                    <AddTeam team={team} />
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }

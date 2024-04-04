@@ -2,7 +2,7 @@ import React from 'react';
 import Card from './Card';
 import { Skeleton } from './ui/skeleton';
 
-export default function CardList({ users, loading }) {
+export default function CardList({ users, loading, setTeam, addToTeam, team }) {
     return (
         <>
             {
@@ -12,6 +12,8 @@ export default function CardList({ users, loading }) {
                     (
                         users.map((user) => (
                             <Card
+                                team={team}
+                                setTeam={setTeam}
                                 domain={user.domain}
                                 email={user.email}
                                 firstName={user.first_name}
@@ -20,6 +22,8 @@ export default function CardList({ users, loading }) {
                                 avatar={user.avatar}
                                 key={user._id}
                                 available={user.available}
+                                addToTeam={addToTeam}
+                                _id={user._id}
                             />
                         ))
                     )

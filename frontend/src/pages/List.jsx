@@ -22,7 +22,7 @@ export default function List() {
     const [genders, setGenders] = useState(queryParams.get('gender') ? queryParams.get('gender').split(',') : []);
     const [available, setAvailable] = useState(queryParams.get('available') || '');
     const [nextDisable, setNextDisable] = useState(false)
-
+    const [team, setTeam] = useState([])
     useEffect(() => {
         setLoading(true);
         const fetchData = async (page) => {
@@ -59,12 +59,21 @@ export default function List() {
         setCurrentPage(currentPage + 1);
     };
 
+    const addToTeam = (_id, domain) => {
+        const member = { _id, domain };
+        if (team.some(member => member._id === _id)) {
+            setTeam(team.filter(member => member._id !== _id));
+        } else {
+            setTeam([...team, member]);
+        }
+    }
     return (
         <div className="bg-black min-h-screen w-screen">
             <div className="flex flex-col w-full h-full pb-10">
                 <div className="w-full flex  px-20 pb-3 items-end h-28 border-b-2 border-neutral-600">
                     <NavBar />
                     <Actions
+                        team={team}
                         domains={domains}
                         setDomains={setDomains}
                         genders={genders}
@@ -74,7 +83,7 @@ export default function List() {
                     />
                 </div>
                 <div className="w-full py-10 gap-y-10 gap-x-5 grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  grid-cols-1 px-10 ">
-                    <CardList loading={loading} users={users} />
+                    <CardList team={team} addToTeam={addToTeam} setTeam={setTeam} loading={loading} users={users} />
                 </div>
                 <Pagination>
                     <PaginationContent className='text-background'>
