@@ -70,7 +70,7 @@ export default function List() {
     return (
         <div className="bg-black min-h-screen w-screen">
             <div className="flex flex-col w-full h-full pb-10">
-                <div className="w-full flex  px-20 pb-3 items-end h-28 border-b-2 border-neutral-600">
+                <div className="w-full flex  md:px-20 px-5 pb-3 items-end h-28 border-b-2 border-neutral-600">
                     <NavBar />
                     <Actions
                         team={team}
