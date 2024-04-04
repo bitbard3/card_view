@@ -24,6 +24,7 @@ export default function CardList({ users, loading, setTeam, addToTeam, team }) {
                                 available={user.available}
                                 addToTeam={addToTeam}
                                 _id={user._id}
+                                check={true}
                             />
                         ))
                     )

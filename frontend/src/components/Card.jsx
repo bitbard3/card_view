@@ -1,7 +1,7 @@
 import React from 'react'
 import { Checkbox } from './ui/checkbox'
 
-export default function Card({ firstName, lastName, gender, email, domain, avatar, available, addToTeam, _id, team }) {
+export default function Card({ firstName, lastName, gender, email, domain, avatar, available, addToTeam, _id, check }) {
     const handleAddToTeam = () => {
         addToTeam(_id, domain);
     };
@@ -29,9 +29,10 @@ export default function Card({ firstName, lastName, gender, email, domain, avata
                     </div>
                 </div>
             }
-            <div className="absolute top-3 left-3">
-                <Checkbox disabled={!available} onClick={handleAddToTeam} className='border-neutral-500' />
-            </div>
+            {check &&
+                <div className="absolute top-3 left-3">
+                    <Checkbox disabled={!available} onClick={handleAddToTeam} className='border-neutral-500' />
+                </div>}
         </div>
     )
 }
