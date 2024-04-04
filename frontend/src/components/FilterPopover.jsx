@@ -61,14 +61,7 @@ export default function FilterPopover({ domains, setDomains, genders, setGenders
                     </div>
                 </div>
             </div>
-            <div className="flex items-center mt-7 border-b-2 border-neutral-200 pb-5 justify-between">
-                <p className="text-stone-950">Name</p>
-                <div className="w-2/3 rounded-md flex items-center border border-black">
-                    <input type="text"
-                        className="pl-2 w-[80%] focus:outline-none py-1.5 placeholder:text-neutral-500 placeholder:text-sm text-sm  rounded-md"
-                        placeholder="Anet" />
-                </div>
-            </div>
+
             <div className="flex items-center mt-7 border-b-2 border-neutral-200 pb-5 justify-between">
                 <div className="flex items-center space-x-4">
                     <p className="text-stone-950">Gender</p>
