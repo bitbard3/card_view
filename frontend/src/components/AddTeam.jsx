@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import axios from 'axios';
+import { useToast } from "@/components/ui/use-toast"
 
 export default function AddTeam({ team }) {
+    const { toast } = useToast()
     const [name, setName] = useState('')
     const areDomainsUnique = () => {
         const domains = team.map(member => member.domain);
@@ -9,16 +11,25 @@ export default function AddTeam({ team }) {
         return domains.length === uniqueDomains.size;
     };
     const onSubmitHandler = async () => {
-        if (team.length < 1) {
-            console.log('Need atleast two members')
+        if (team.length < 2) {
+            toast({
+                description: "Need atleast two members to create team!",
+                variant: "destructive",
+            })
             return
         }
         if (!name) {
-            console.log('name cant be empty')
+            toast({
+                description: "Name cannot be empty",
+                variant: "destructive",
+            })
             return
         }
         if (!areDomainsUnique()) {
-            console.log('same feild')
+            toast({
+                description: "One or more members has same domain",
+                variant: "destructive",
+            })
             return
         }
         const payload = {
@@ -27,6 +38,9 @@ export default function AddTeam({ team }) {
         };
         try {
             const res = await axios.post('https://card-view-backend.vercel.app/api/team', payload)
+            toast({
+                description: "Team created!",
+            })
         } catch (error) {
             console.log(error)
         }
