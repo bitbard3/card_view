@@ -12,7 +12,7 @@ export default function TeamCard({ name, users }) {
             <div className="flex justify-center items-center">
                 <p className="text-light font-medium text-xl border-b-[1px] border-black">{name}</p>
             </div>
-            <div className="flex w-full px-10">
+            <div id='avatar' className="flex w-full px-10">
                 {users.map((user, index) => (
                     <div key={index} className="flex items-center">
                         <Dialog>

@@ -47,7 +47,6 @@ const driverObj = driver({
                 position: "top"
             }
         },
-
     ]
 });
 export default function List() {
