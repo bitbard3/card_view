@@ -54,3 +54,11 @@ export const teamInfo = async (req, res) => {
     }
 };
 
+export const teams = async (req, res) => {
+    try {
+        const teams = await Team.find({}).populate('users');
+        res.json({ teams });
+    } catch (error) {
+        res.status(500).json({ msg: "Internal server error" });
+    }
+};
