@@ -116,6 +116,7 @@ export default function List() {
                 <div className="w-full flex  md:px-20 px-5 pb-3 items-end h-28 border-b-2 border-neutral-600">
                     <NavBar />
                     <Actions
+                        driverObj={driverObj}
                         team={team}
                         domains={domains}
                         setDomains={setDomains}
