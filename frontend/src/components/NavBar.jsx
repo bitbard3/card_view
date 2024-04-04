@@ -11,7 +11,7 @@ export default function NavBar() {
                     Users
                 </NavLink>
                 <NavLink to={'/teams'} className={({ isActive }) =>
-                    isActive ? 'text-white md:text-xl' : 'text-neutral-400 md:text-xl'
+                    isActive ? 'text-white md:text-xl border-b-[1px] border-neutral-300' : 'text-neutral-400 md:text-xl'
                 }>
                     Teams
                 </NavLink>
