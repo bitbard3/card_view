@@ -11,7 +11,45 @@ import {
     PaginationPrevious,
 } from "@/components/ui/pagination"
 import Actions from '@/components/Actions';
+import { driver } from 'driver.js';
+import 'driver.js/dist/driver.css';
 
+const driverObj = driver({
+    showProgress: true,
+    animate: true,
+    steps: [
+        {
+            element: '#tabs',
+            popover: {
+                title: 'Tabs',
+                description: 'Here you can change tabs'
+            }
+        },
+        {
+            element: '#filter',
+            popover: {
+                title: 'Filter',
+                description: 'You can apply multiple filters'
+            }
+        },
+        {
+            element: '#check',
+            popover: {
+                title: 'Select users',
+                description: 'You can select users and create your own team!'
+            }
+        },
+        {
+            element: '#pagination',
+            popover: {
+                title: 'Pagination',
+                description: 'Navigate through pages from here',
+                position: "top"
+            }
+        },
+
+    ]
+});
 export default function List() {
     const { search } = useLocation();
     const queryParams = new URLSearchParams(search);
@@ -23,6 +61,12 @@ export default function List() {
     const [available, setAvailable] = useState(queryParams.get('available') || '');
     const [nextDisable, setNextDisable] = useState(false)
     const [team, setTeam] = useState([])
+    useEffect(() => {
+        if (localStorage.getItem('help') == undefined) {
+            driverObj.drive();
+            localStorage.setItem('help', 'done')
+        }
+    }, [])
     useEffect(() => {
         setLoading(true);
         const fetchData = async (page) => {

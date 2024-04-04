@@ -30,7 +30,7 @@ export default function Card({ firstName, lastName, gender, email, domain, avata
                 </div>
             }
             {check &&
-                <div className="absolute top-3 left-3">
+                <div id='check' className="absolute top-3 left-3">
                     <Checkbox disabled={!available} onClick={handleAddToTeam} className='border-neutral-500' />
                 </div>}
         </div>

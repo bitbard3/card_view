@@ -16,7 +16,7 @@ import AddTeam from './AddTeam';
 export default function Actions({ setDomains, domains, genders, setGenders, available, setAvailable, team }) {
     return (
         <div className="flex items-center md:space-x-10 space-x-5 ml-auto">
-            <div className="h-10 w-10 rounded-full hover:opacity-95 bg-[#788fff] flex items-center justify-center">
+            <div id='filter' className="h-10 w-10 rounded-full hover:opacity-95 bg-[#788fff] flex items-center justify-center">
                 <Popover>
                     <PopoverTrigger>
                         <div className="">
