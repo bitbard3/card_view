@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import List from "./pages/List";
+import Teams from "./pages/Teams";
 
 function App() {
 
@@ -8,6 +9,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<List />} />
+        <Route path="/teams" element={<Teams />} />
       </Routes>
     </>
   )
