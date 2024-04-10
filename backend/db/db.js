@@ -58,6 +58,35 @@ const teamSchema = mongoose.Schema({
     ],
 })
 
+const bookSchema = mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    author: {
+        type: String,
+        required: true
+    },
+    chapters: [{
+        ref: "Chapter",
+        type: mongoose.Schema.Types.ObjectId
+    }]
+})
 
+const chapterSchema = mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    subChapters: [{
+        ref: "Chapter",
+        type: mongoose.Schema.Types.ObjectId
+    }]
+})
+
+
+
+export const Book = mongoose.model('Book', bookSchema)
+export const Chapter = mongoose.model('Chapter', chapterSchema)
 export const User = mongoose.model('User', userSchema)
 export const Team = mongoose.model('Team', teamSchema)

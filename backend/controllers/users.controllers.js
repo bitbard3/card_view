@@ -1,7 +1,6 @@
-import { User } from "../db/db.js"
+import { User, Book, Chapter } from "../db/db.js"
 import { userIdSchema } from "../validations/team.validations.js";
 import { createUserSchema, updateUserSchema } from "../validations/user.validation.js"
-
 export const users = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
@@ -112,3 +111,71 @@ export const deleteUser = async (req, res) => {
         return res.status(404).json({ msg: "User doesnt exist" })
     }
 }
+
+async function createChapters(chaptersData) {
+    const chapterIds = [];
+
+    for (const chapData of chaptersData) {
+        const chapter = await createChapter(chapData);
+        chapterIds.push(chapter._id);
+    }
+
+    return chapterIds;
+}
+
+async function createChapter(chapData) {
+    const { title, subChapters } = chapData;
+
+    let chapter;
+
+    if (subChapters && subChapters.length > 0) {
+        const nestedChapters = await createChapters(subChapters);
+        chapter = await Chapter.create({ title, subChapters: nestedChapters });
+    } else {
+        chapter = await Chapter.create({ title });
+    }
+
+    return chapter;
+}
+
+export const createBook = async (req, res) => {
+    const payload = req.body
+    try {
+        const chapters = await createChapters(payload.chapters);
+        const book = await Book.create({
+            name: payload.name,
+            author: payload.author,
+            chapters: chapters
+        });
+
+        res.status(200).json("Book created");
+    } catch (error) {
+        res.status(500).json({ msg: "Internal Server Error" });
+    }
+}
+export const bookInfo = async (req, res) => {
+    const bookId = req.params.id;
+    try {
+        const book = await Book.findById(bookId).populate({
+            path: 'chapters',
+            populate: { path: 'subChapters' }
+        });
+        if (!book) {
+            return res.status(404).json({ msg: "Book not found" });
+        }
+        const formatChapters = (chapters) => {
+            return chapters.map(chapter => ({
+                title: chapter.title,
+                subChapters: chapter.subChapters ? formatChapters(chapter.subChapters) : []
+            }));
+        };
+        const formattedBook = {
+            name: book.name,
+            author: book.author,
+            chapters: formatChapters(book.chapters)
+        };
+        res.json(formattedBook);
+    } catch (error) {
+        res.status(500).json({ msg: "Internal Server Error" });
+    }
+};
