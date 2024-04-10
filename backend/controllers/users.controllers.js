@@ -153,29 +153,35 @@ export const createBook = async (req, res) => {
         res.status(500).json({ msg: "Internal Server Error" });
     }
 }
+const populateSubChapters = async (chapterId) => {
+    const chapter = await Chapter.findById(chapterId).populate({
+        path: 'subChapters',
+        populate: { path: 'subChapters' }
+    });
+    return chapter;
+};
+
+const populateChapters = async (chapters) => {
+    const populatedChapters = [];
+    for (const chapter of chapters) {
+        const populatedChapter = await populateSubChapters(chapter._id);
+        populatedChapters.push(populatedChapter);
+    }
+    return populatedChapters;
+};
+
 export const bookInfo = async (req, res) => {
     const bookId = req.params.id;
     try {
-        const book = await Book.findById(bookId).populate({
-            path: 'chapters',
-            populate: { path: 'subChapters' }
-        });
+        const book = await Book.findById(bookId).populate('chapters');
         if (!book) {
-            return res.status(404).json({ msg: "Book not found" });
+            return res.status(404).json({ message: 'Book not found' });
         }
-        const formatChapters = (chapters) => {
-            return chapters.map(chapter => ({
-                title: chapter.title,
-                subChapters: chapter.subChapters ? formatChapters(chapter.subChapters) : []
-            }));
-        };
-        const formattedBook = {
-            name: book.name,
-            author: book.author,
-            chapters: formatChapters(book.chapters)
-        };
-        res.json(formattedBook);
+        const populatedChapters = await populateChapters(book.chapters);
+        book.chapters = populatedChapters;
+        res.json(book);
     } catch (error) {
-        res.status(500).json({ msg: "Internal Server Error" });
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
     }
 };
