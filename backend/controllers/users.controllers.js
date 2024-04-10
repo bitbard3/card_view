@@ -148,7 +148,7 @@ export const createBook = async (req, res) => {
             chapters: chapters
         });
 
-        res.status(200).json("Book created");
+        res.status(200).json({ msg: "Book created", id: book._id });
     } catch (error) {
         res.status(500).json({ msg: "Internal Server Error" });
     }
